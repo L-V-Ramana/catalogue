@@ -7,12 +7,12 @@ pipeline {
         
         stage('reading packagejson'){
             def packageJSON = readJSON file: 'package.json'
-            def packageJSONVersion = packageJSON.version
-            appVersion=packageJSONVersion
+            appVersion = packageJSON.version
 
-            echo packageJSONVersion
-            sh 'VERSION=${packageJSONVersion}_${BUILD_NUMBER}_${BRANCH_NAME} npm run build'
+            echo "${appVersion}"
+          
         }
+
         stage('build-image') {
             steps {
                 script{
