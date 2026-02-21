@@ -13,24 +13,5 @@ pipeline {
           
         }
 
-        stage('build-image') {
-            steps {
-                script{
-                    sh """
-                    
-                    """
-                }
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-            }
-        }
     }
 }
