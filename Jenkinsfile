@@ -30,7 +30,7 @@ pipeline {
         stage(){{
             steps{
                 scripts{
-                    withAWS(credentials: 'awscredentials', region: 'us-east-1') {
+                    withAWS(credentials: 'aws-auth', region: 'us-east-1') {
                     sh """
                     
                         'aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin 8679207${acc_id}34831.dkr.ecr.${region}.amazonaws.com'
