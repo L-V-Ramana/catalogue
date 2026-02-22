@@ -1,46 +1,45 @@
 pipeline {
     agent { label 'agent-1' }
+
     environment { 
-      appVersion=''
-      acc_id='867920734831'
-      region='us-east-1'
-      project='roboshop'
+        acc_id = '867920734831'
+        region = 'us-east-1'
+        project = 'roboshop'
+        appVersion = ''
     }
+
     stages {
-        
-        stage('reading packagejson'){
-            steps{
-                 script{
-                        def packageJSON = readJSON file: 'package.json'
-                        appVersion = packagexJSON.version
-                        echo "${appVersion}"
+
+        stage('Read package.json') {
+            steps {
+                script {
+                    def packageJSON = readJSON file: 'package.json'
+                    env.appVersion = packageJSON.version
+                    echo "App Version: ${env.appVersion}"
                 }
             }
         }
 
-        stage('instaling dependencies'){
-            steps{
-                script{
-                   sh """
-                        npm install
-                   """
-                }
+        stage('Install dependencies') {
+            steps {
+                sh 'npm install'
             }
         }
-        stage(){
-            steps{
-                scripts{
-                    withAWS(credentials: 'aws-auth', region: 'us-east-1') {
-                    sh """
-                    
-                        'aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin 8679207${acc_id}34831.dkr.ecr.${region}.amazonaws.com'
-                        docker build -t ${project}/catalogue . 
-                        docker tag ${project}/catalogue:${appVersion} ${acc_id}.dkr.ecr.${region}.amazonaws.com/${project}/catalogue:${appVersionp}
-                        docker push ${acc_id}.dkr.ecr.us-east-1.amazonaws.com/${project}/catalogue:${appVersion}
-                    """
+
+        stage('Docker Build & Push') {
+            steps {
+                script {
+                    withAWS(credentials: 'aws-auth', region: "${region}") {
+                        sh """
+                        aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${acc_id}.dkr.ecr.${region}.amazonaws.com
+                        docker build -t ${project}/catalogue:${appVersion} .
+                        docker tag ${project}/catalogue:${appVersion} ${acc_id}.dkr.ecr.${region}.amazonaws.com/${project}/catalogue:${appVersion}
+                        docker push ${acc_id}.dkr.ecr.${region}.amazonaws.com/${project}/catalogue:${appVersion}
+                        """
+                    }
                 }
             }
         }
 
-    
+    }
 }
