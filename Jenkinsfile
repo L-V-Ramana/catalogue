@@ -27,7 +27,7 @@ pipeline {
                 }
             }
         }
-        stage(){{
+        stage(){
             steps{
                 scripts{
                     withAWS(credentials: 'aws-auth', region: 'us-east-1') {
