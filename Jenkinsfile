@@ -24,7 +24,7 @@ pipeline {
             steps {
                 sh """
                     'npm install'
-                    """
+                    """ 
             }
         }
 
@@ -45,3 +45,4 @@ pipeline {
 
     }
 }   
+
