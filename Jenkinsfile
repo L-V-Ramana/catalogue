@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script {
                     def packageJSON = readJSON file: 'package.json'
-                    appVersion = ${packageJSON.version}
+                    appVersion = packageJSON.version
                     echo "App Version: ${env.appVersion}"
                 }
             }
@@ -39,7 +39,7 @@ pipeline {
                         aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 867920734831.dkr.ecr.us-east-1.amazonaws.com
                         docker build -t roboshop/catalogue .
                         docker tag roboshop/catalogue:latest 867920734831.dkr.ecr.us-east-1.amazonaws.com/roboshop/catalogue:latest
-                        docker push 867920734831.dkr.ecr.us-east-1.amazonaws.com/roboshop/catalogue:latestdocker push ${acc_id}.dkr.ecr.${region}.amazonaws.com/${project}/catalogue:${appVersion}
+                        docker push 867920734831.dkr.ecr.us-east-1.amazonaws.com/roboshop/catalogue:latest
                         """
                     }
                 }
