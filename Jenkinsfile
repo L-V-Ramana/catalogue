@@ -7,6 +7,9 @@ pipeline {
         project = 'roboshop'
         appVersion = ''
     }
+    parameters{
+         booleanParam(name:'deployment', defaultValue: false, description: 'Toggle this value')
+    }
 
     stages {
 
@@ -24,7 +27,7 @@ pipeline {
             steps {
                 script{
                     sh """
-                    npm install 
+                        npm install 
                     """ 
                 }
                 
@@ -44,6 +47,22 @@ pipeline {
                     }
                 }
             }
+        }
+
+        stage('trigger cd'){
+            when{
+                expression { params.deployment}
+            }
+            steps{
+                     uild job: 'catalogue-cd', 
+                     parameters: [
+                        string(name: 'appVersion', value: ${appVersion}),
+                        string(name: 'deployt', value: 'dev')
+                   
+                    ]
+                     propagate: false
+            }
+
         }
 
     }
