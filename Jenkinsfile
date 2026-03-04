@@ -1,6 +1,8 @@
 pipeline {
     agent { label 'agent-1' }
-
+    options{
+        ansiColor('xtrem')
+    }
     environment { 
         acc_id = '867920734831'
         region = 'us-east-1'
@@ -56,8 +58,8 @@ pipeline {
             steps{
                      build job: 'catalogue-cd', 
                      parameters: [
-                        string(name: 'appVersion', value: ${appVersion}),
-                        string(name: 'deployt', value: 'dev')
+                        string(name: 'appVersion', value: "${appVersion}"),
+                        string(name: 'deploy', value: 'dev')
                    
                     ],
                      propagate: false, // even catalogue cd failes will not show ci as failed
