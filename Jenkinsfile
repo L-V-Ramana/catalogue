@@ -59,7 +59,7 @@ pipeline {
                         string(name: 'appVersion', value: ${appVersion}),
                         string(name: 'deployt', value: 'dev')
                    
-                    ]
+                    ],
                      propagate: false, // even catalogue cd failes will not show ci as failed
                      wait: false // wont wait untill cd complete , if ci complete show as success
             }
