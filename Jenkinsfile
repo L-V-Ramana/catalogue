@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
                     def packageJSON = readJSON file: 'package.json'
-                    appVersion = packageJSON.version
+                    env.appVersion = packageJSON.version
                     echo "App Version: ${appVersion}"
                 }
             }
@@ -58,7 +58,7 @@ pipeline {
             steps{
                      build job: 'catalogue-cd', 
                      parameters: [
-                        string(name: 'appVersion', value: '${appVersion}'),
+                        string(name: 'appVersion', value: '${env.appVersion}'),
                         string(name: 'deploy', value: 'dev')
                    
                     ],
