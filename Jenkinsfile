@@ -59,7 +59,7 @@ pipeline {
                     echo "${appVersion}"
                      build job: 'catalogue-cd', 
                      parameters: [
-                        string(name: 'appVersion', value: '${appVersion}'),
+                        string(name: 'appVersion', value: "${appVersion}"),
                         string(name: 'deploy', value: 'dev')
                    
                     ],
