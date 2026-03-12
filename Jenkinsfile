@@ -45,9 +45,7 @@ pipeline {
                                        
                script{
                     withSonarQubeEnv(installationName: 'Sonar-7.2') {
-                    sh """
-                    ${scannerHome}/bin/sonar-scanner
-                    """
+                    sh "${scannerHome}/bin/sonar-scanner"
                     }
                 }
             }
