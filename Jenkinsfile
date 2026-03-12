@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'agent-1' }
     options{
-        ansiColor('xtrem')
+        ansiColor('xterm')
     }
     environment { 
         acc_id = '867920734831'
