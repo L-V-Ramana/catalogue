@@ -13,7 +13,7 @@ pipeline {
          booleanParam(name:'deployment', defaultValue: false, description: 'Toggle this value')
     }
 
-    stages {
+    stages {    
 
         stage('Read package.json') {
             steps {
@@ -29,6 +29,7 @@ pipeline {
             steps {
                 script{
                     sh """
+                        who am i
                         npm install 
                     """ 
                 }
