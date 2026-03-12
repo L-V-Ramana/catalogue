@@ -36,6 +36,22 @@ pipeline {
             }
         }
 
+        stage('sonar scan'){
+            steps{
+                script{
+                        environment {
+                          scannerHome = tool 'Sonar-7.2'
+                        }
+                steps {
+                    withSonarQubeEnv('Sonar-7.2') {
+                    sh """
+                    ${scannerHome}/bin/sonar-scanner
+                    """
+                    }
+                }
+            }
+        }   
+
         stage('Docker Build & Push') {
             steps {
                 script {
