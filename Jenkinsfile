@@ -29,7 +29,6 @@ pipeline {
             steps {
                 script{
                     sh """
-                        'who am i'
                         npm install 
                     """ 
                 }
