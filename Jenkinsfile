@@ -59,33 +59,32 @@ pipeline {
          }
         }
 
-          stage('Check Dependabot Alerts') {
-                environment {
-                    GITHUB_TOKEN = credentials('github-token')
-                    REPO = "L-V-Ramana/catalogue"
-                }
+          stage('Dependabot Scan') {
             steps {
-                script {
+                withCredentials([string(credentialsId: 'github-token', variable: 'TOKEN')]) {
 
-                    def response = sh(
-                        script: """
-                        curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
-                        https://api.github.com/repos/${REPO}/dependabot/alerts
-                        """,
-                        returnStdout: true
-                    ).trim()
+                    script {
 
-                    def highIssues = sh(
-                        script: """
-                        echo '$response' | jq '[.[] | select(.security_advisory.severity=="high" or .security_advisory.severity=="critical")] | length'
-                        """,
-                        returnStdout: true
-                    ).trim()
+                        def response = sh(
+                            script: '''
+                            curl -s -H "Authorization: Bearer $TOKEN" \
+                            https://api.github.com/repos/L-V-Ramana/catalogue/dependabot/alerts
+                            ''',
+                            returnStdout: true
+                        ).trim()
 
-                    if(highIssues.toInteger() > 0){
-                        error "High or Critical Dependabot vulnerabilities found: ${highIssues}"
-                    } else {
-                        echo "No High/Critical vulnerabilities"
+                        def highIssues = sh(
+                            script: """
+                            echo '$response' | jq '[.[] | select(.security_advisory.severity=="high" or .security_advisory.severity=="critical")] | length'
+                            """,
+                            returnStdout: true
+                        ).trim()
+
+                        if(highIssues.toInteger() > 0){
+                            error "High/Critical vulnerabilities found: ${highIssues}"
+                        } else {
+                            echo "No High/Critical vulnerabilities"
+                        }
                     }
                 }
             }
