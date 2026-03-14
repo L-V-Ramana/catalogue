@@ -51,6 +51,14 @@ pipeline {
             }
         }   
 
+        stage('waiting-scanner-results'){
+            steps{
+                timeout(time: 15, unit: 'MINUTES') { // Set a reasonable timeout
+                waitForQualityGate abortPipeline: true
+            }
+         }
+        }
+
         stage('Docker Build & Push') {
             steps {
                 script {
