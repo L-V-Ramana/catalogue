@@ -65,25 +65,23 @@ pipeline {
 
                     script {
 
-                        def response = sh(
+                         def vulnCount = sh(
                             script: '''
-                            curl -s -H "Authorization: Bearer $TOKEN" \
-                            https://api.github.com/repos/L-V-Ramana/catalogue/dependabot/alerts
+                            curl -s \
+                            -H "Authorization: Bearer $TOKEN" \
+                            -H "Accept: application/vnd.github+json" \
+                            "https://api.github.com/repos/L-V-Ramana/catalogue/dependabot/alerts?state=open&per_page=100" \
+                            | jq '[.[] | select(.security_advisory.severity=="high" or .security_advisory.severity=="critical")] | length'
                             ''',
                             returnStdout: true
                         ).trim()
 
-                        def highIssues = sh(
-                            script: """
-                            echo '$response' | jq '[.[] | select(.security_advisory.severity=="high" or .security_advisory.severity=="critical")] | length'
-                            """,
-                            returnStdout: true
-                        ).trim()
+                        echo "High/Critical Dependabot alerts: ${vulnCount}"
 
-                        if(highIssues.toInteger() > 0){
-                            error "High/Critical vulnerabilities found: ${highIssues}"
+                        if (vulnCount.toInteger() > 0) {
+                            error "Pipeline failed: High/Critical Dependabot alerts present"
                         } else {
-                            echo "No High/Critical vulnerabilities"
+                            echo "No High/Critical alerts. Pipeline passed."
                         }
                     }
                 }
