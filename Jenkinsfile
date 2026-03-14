@@ -59,7 +59,7 @@ pipeline {
         //  }
         // }
 
-        //   stage('Dependabot Scan') {
+          stage('Dependabot Scan') {
             steps {
                 withCredentials([string(credentialsId: 'github-token', variable: 'TOKEN')]) {
 
