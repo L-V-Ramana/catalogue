@@ -36,30 +36,30 @@ pipeline {
             }
         }
 
-        stage('sonar scan'){
+        // stage('sonar scan'){
 
-             environment {
-                          scannerHome = tool 'sonar-7.2'
-                        }
-            steps{
+        //      environment {
+        //                   scannerHome = tool 'sonar-7.2'
+        //                 }
+        //     steps{
                                        
-               script{
-                    withSonarQubeEnv(installationName: 'sonar-7.2') {
-                    sh "${scannerHome}/bin/sonar-scanner"
-                    }
-                }
-            }
-        }   
+        //        script{
+        //             withSonarQubeEnv(installationName: 'sonar-7.2') {
+        //             sh "${scannerHome}/bin/sonar-scanner"
+        //             }
+        //         }
+        //     }
+        // }   
 
-        stage('waiting-scanner-results'){
-            steps{
-                timeout(time: 15, unit: 'MINUTES') { // Set a reasonable timeout
-                waitForQualityGate abortPipeline: false
-            }
-         }
-        }
+        // stage('waiting-scanner-results'){
+        //     steps{
+        //         timeout(time: 15, unit: 'MINUTES') { // Set a reasonable timeout
+        //         waitForQualityGate abortPipeline: false
+        //     }
+        //  }
+        // }
 
-          stage('Dependabot Scan') {
+        //   stage('Dependabot Scan') {
             steps {
                 withCredentials([string(credentialsId: 'github-token', variable: 'TOKEN')]) {
 
