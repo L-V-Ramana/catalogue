@@ -62,7 +62,7 @@ pipeline {
           stage('Check Dependabot Alerts') {
                 environment {
                     GITHUB_TOKEN = credentials('github-token')
-                    REPO = REPO = "L-V-Ramana/catalogue"
+                    REPO = "L-V-Ramana/catalogue"
                 }
             steps {
                 script {
