@@ -1,4 +1,4 @@
-@ Liberary('jenkins-shared-library')_
+@ Library('jenkins-shared-library')_
 
 def condfigMap=[
      greeting: "hello world"
