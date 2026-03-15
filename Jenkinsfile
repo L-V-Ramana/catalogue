@@ -1,7 +1,7 @@
 @ Library('jenkins-shared-library')_
 
-def condfigMap=[
+def configMap=[
      greeting: "hello world"
 ]
 
-samplePipeline.call(condfigMap)
+samplePipeline(configMap)
