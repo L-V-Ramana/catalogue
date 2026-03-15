@@ -1,12 +1,6 @@
-// @ Library('jenkins-shared-library')_
 
-// def configMap=[
-//      greeting: "hello world"
-// ]
 
-// samplePipeline(configMap)
-
-@Library ('jenkis-shared-library')_
+@ Library ('jenkis-shared-library') _
 
     def configmap = [
         project : "roboshop",
