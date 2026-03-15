@@ -12,5 +12,10 @@
         project : "roboshop",
         component: "catalogue"
     ]
-
-    nodejsEKSPipeline(configMap)
+if(! (env.BRANCH_NAME.equalsIgnoreCase('main'))){
+         nodejsEKSPipeline(configMap)
+}
+else{
+    echo "already scanned in feature branch"
+}
+   
